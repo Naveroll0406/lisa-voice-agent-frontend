@@ -52,5 +52,4 @@ A stunning, highly responsive Next.js web application built to serve as the user
 - `ToolCallFeed.tsx`: Subscribes to custom WebRTC data payloads published by the Python backend to display real-time tool execution logs.
 - `SummaryCard.tsx`: The final dashboard rendered upon successful appointment booking and conversation completion.
 
-## 🏆 Hackathon Project
-This repository serves as the frontend interface for the AI Voice Agent hackathon challenge.
+
