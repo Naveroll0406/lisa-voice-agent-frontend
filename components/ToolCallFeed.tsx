@@ -11,7 +11,7 @@ type ToolCallEvent = {
   time: Date;
 };
 
-export default function ToolCallFeed({ onSummary }: { onSummary?: (data: any) => void }) {
+export default function ToolCallFeed({ onSummary, onUserInfo }: { onSummary?: (data: any) => void, onUserInfo?: (data: any) => void }) {
   const room = useRoomContext();
   const [events, setEvents] = useState<ToolCallEvent[]>([]);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -33,6 +33,10 @@ export default function ToolCallFeed({ onSummary }: { onSummary?: (data: any) =>
           setEvents(prev => [...prev, { ...parsed, time: new Date() }]);
         } else if (parsed.type === 'summary' && onSummary) {
           onSummary(parsed);
+        } else if (parsed.type === 'user_info' && onUserInfo) {
+          onUserInfo(parsed.data);
+        } else if (parsed.type === 'action' && parsed.action === 'reload') {
+          window.location.reload();
         }
       } catch (e) {
         // ignore parsing errors
@@ -43,25 +47,25 @@ export default function ToolCallFeed({ onSummary }: { onSummary?: (data: any) =>
     return () => {
       room.off(RoomEvent.DataReceived, handleData);
     };
-  }, [room, onSummary]);
+  }, [room, onSummary, onUserInfo]);
 
   return (
-    <div className="flex flex-col gap-2 h-full">
-      <h3 className="text-slate-500 text-xs font-bold uppercase tracking-wider mb-2 flex justify-between items-center">
+    <div className="flex flex-col gap-2 h-full w-full min-h-0">
+      <h3 className="text-slate-400 text-sm font-bold uppercase tracking-wider mb-2 flex justify-between items-center">
         <span>Agent Actions</span>
-        <span className="animate-pulse bg-emerald-500 w-2 h-2 rounded-full"></span>
+        <span className="animate-pulse bg-green-500 w-2 h-2 rounded-full"></span>
       </h3>
       <div 
         ref={scrollRef}
-        className="flex-1 overflow-y-auto pr-2 pb-2 scroll-smooth"
+        className="flex-1 min-h-0 overflow-y-auto pr-2 pb-2 scroll-smooth"
       >
         {events.length === 0 && (
-          <p className="text-slate-400 text-sm italic mt-4">Waiting for agent actions...</p>
+          <p className="text-slate-600 text-sm italic mt-4">Waiting for agent actions...</p>
         )}
         {events.map((ev, i) => (
-          <div key={i} className="flex flex-col text-sm border-l-2 border-indigo-500 pl-3 py-2 mb-2 bg-indigo-50/50 rounded-r-lg">
-            <span className="text-indigo-900 font-medium">{ev.label}</span>
-            <span className="text-indigo-400 text-xs mt-1">
+          <div key={i} className="flex flex-col text-sm border-l-2 border-blue-500 pl-3 py-2 mb-2 bg-slate-800/50 rounded-r-lg">
+            <span className="text-slate-200 font-medium">{ev.label}</span>
+            <span className="text-slate-500 text-xs mt-1">
               {ev.tool} • {ev.status} • {ev.time.toLocaleTimeString()}
             </span>
           </div>

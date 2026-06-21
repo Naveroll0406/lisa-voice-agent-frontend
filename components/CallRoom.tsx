@@ -9,10 +9,12 @@ import AvatarTile from './AvatarTile';
 import ToolCallFeed from './ToolCallFeed';
 import TranscriptPanel from './TranscriptPanel';
 import SummaryCard from './SummaryCard';
+import UserProfile, { UserInfo } from './UserProfile';
 
 export default function CallRoom({ token, serverUrl }: { token: string; serverUrl: string }) {
   const [callEnded, setCallEnded] = useState(false);
   const [summaryData, setSummaryData] = useState<any>(null);
+  const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
 
   const handleSummary = (data: any) => {
     setSummaryData(data);
@@ -34,29 +36,39 @@ export default function CallRoom({ token, serverUrl }: { token: string; serverUr
       <RoomAudioRenderer />
       
       {!callEnded ? (
-        <>
-          <div className="flex-1 flex flex-col gap-6">
-            <div className="bg-white rounded-3xl overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.04)] flex-1 flex items-center justify-center border border-indigo-50 relative transition-all">
-              <AvatarTile />
-            </div>
-            
-            <div className="h-80 bg-white rounded-3xl p-6 overflow-y-auto border border-indigo-50 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
-              <TranscriptPanel />
-            </div>
+        <div className="flex flex-col w-full h-full min-h-0">
+          {/* Top Panel: User Profile */}
+          <div className="w-full shrink-0">
+            <UserProfile userInfo={userInfo} />
           </div>
           
-          <div className="w-96 bg-white rounded-3xl p-6 overflow-hidden flex flex-col border border-indigo-50 shadow-[0_8px_30px_rgb(0,0,0,0.04)] max-h-full">
-            <ToolCallFeed onSummary={handleSummary} />
+          {/* Bottom Area: 2 Columns */}
+          <div className="flex-1 flex gap-6 p-6 min-h-0">
+            {/* Left Column: Avatar + Transcript */}
+            <div className="flex-1 flex flex-col gap-6 min-h-0">
+              <div className="flex items-center justify-center relative shrink-0 min-h-[200px]">
+                <AvatarTile />
+              </div>
+              
+              <div className="h-[450px] shrink-0 bg-slate-800 rounded-xl p-4 flex flex-col overflow-hidden border border-slate-700 shadow-inner">
+                <TranscriptPanel />
+              </div>
+            </div>
+            
+            {/* Right Column: Agent Actions */}
+            <div className="w-96 shrink-0 bg-slate-800 rounded-xl p-4 overflow-hidden flex flex-col border border-slate-700 shadow-2xl h-full min-h-0">
+              <ToolCallFeed onSummary={handleSummary} onUserInfo={setUserInfo} />
+            </div>
           </div>
-        </>
+        </div>
       ) : (
         <div className="w-full flex items-center justify-center">
           {summaryData ? (
              <SummaryCard summary={summaryData} />
           ) : (
-             <div className="text-center bg-white p-10 rounded-3xl max-w-lg w-full border border-indigo-50 shadow-[0_8px_30px_rgb(0,0,0,0.06)]">
-               <h2 className="text-3xl font-extrabold mb-4 text-slate-800 tracking-tight">Call Disconnected</h2>
-               <p className="text-slate-500 text-lg">The connection was closed without generating a summary.</p>
+             <div className="text-center bg-slate-800 p-8 rounded-xl max-w-lg w-full border border-slate-700">
+               <h2 className="text-2xl font-bold mb-4 text-slate-300">Call Disconnected</h2>
+               <p className="text-slate-400">The connection was closed without generating a summary.</p>
              </div>
           )}
         </div>
