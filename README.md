@@ -1,4 +1,4 @@
-# Lisa: AI Voice Receptionist (Frontend) 🖥️✨
+# Lisa: Voice Assistant (Frontend) 🖥️✨
 
 A stunning, highly responsive Next.js web application built to serve as the user interface for **Lisa**, an autonomous AI voice receptionist. This frontend connects seamlessly to the LiveKit voice infrastructure, providing users with a beautiful, real-time visual representation of the AI's "brain" as it talks, listens, and executes tools.
 
