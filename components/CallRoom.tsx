@@ -31,7 +31,7 @@ export default function CallRoom({ token, serverUrl }: { token: string; serverUr
       onDisconnected={() => {
         if (!summaryData) setCallEnded(true);
       }}
-      className="w-full h-[85vh] max-h-[900px] max-w-6xl flex gap-6"
+      className="w-full h-full md:h-[85vh] md:max-h-[900px] max-w-6xl"
     >
       <RoomAudioRenderer />
       
@@ -43,7 +43,7 @@ export default function CallRoom({ token, serverUrl }: { token: string; serverUr
           </div>
           
           {/* Bottom Area: 2 Columns */}
-          <div className="flex-1 flex gap-6 p-6 min-h-0">
+          <div className="flex-1 flex flex-col md:flex-row gap-6 p-2 md:p-6 min-h-0 overflow-y-auto md:overflow-hidden">
             {/* Left Column: Avatar + Transcript */}
             <div className="flex-1 flex flex-col gap-6 min-h-0">
               <div className="flex items-center justify-center relative shrink-0 min-h-[200px]">
@@ -56,7 +56,7 @@ export default function CallRoom({ token, serverUrl }: { token: string; serverUr
             </div>
             
             {/* Right Column: Agent Actions */}
-            <div className="w-96 shrink-0 bg-slate-800 rounded-xl p-4 overflow-hidden flex flex-col border border-slate-700 shadow-2xl h-full min-h-0">
+            <div className="w-full md:w-96 shrink-0 bg-slate-800 rounded-xl p-4 overflow-hidden flex flex-col border border-slate-700 shadow-2xl h-[400px] md:h-full min-h-0">
               <ToolCallFeed onSummary={handleSummary} onUserInfo={setUserInfo} />
             </div>
           </div>
