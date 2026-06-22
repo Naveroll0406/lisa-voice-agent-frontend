@@ -31,7 +31,7 @@ export default function CallRoom({ token, serverUrl }: { token: string; serverUr
       onDisconnected={() => {
         if (!summaryData) setCallEnded(true);
       }}
-      className="w-full h-full md:h-[85vh] md:max-h-[900px] max-w-6xl"
+      className="w-full h-full md:h-[85vh] md:max-h-[900px] max-w-6xl flex flex-col"
     >
       <RoomAudioRenderer />
       
@@ -43,20 +43,20 @@ export default function CallRoom({ token, serverUrl }: { token: string; serverUr
           </div>
           
           {/* Bottom Area: 2 Columns */}
-          <div className="flex-1 flex flex-col md:flex-row gap-6 p-2 md:p-6 min-h-0 overflow-y-auto md:overflow-hidden">
+          <div className="flex-1 flex flex-col md:flex-row gap-4 md:gap-6 p-4 md:p-6 min-h-0">
             {/* Left Column: Avatar + Transcript */}
-            <div className="flex-1 flex flex-col gap-6 min-h-0">
-              <div className="flex items-center justify-center relative shrink-0 min-h-[200px]">
+            <div className="flex-1 flex flex-col gap-4 md:gap-6 min-h-0">
+              <div className="flex items-center justify-center relative shrink-0 min-h-[150px] md:min-h-[200px]">
                 <AvatarTile />
               </div>
               
-              <div className="h-[450px] shrink-0 bg-slate-800 rounded-xl p-4 flex flex-col overflow-hidden border border-slate-700 shadow-inner">
+              <div className="flex-1 min-h-[200px] bg-slate-800 rounded-xl p-4 flex flex-col overflow-hidden border border-slate-700 shadow-inner">
                 <TranscriptPanel />
               </div>
             </div>
             
             {/* Right Column: Agent Actions */}
-            <div className="w-full md:w-96 shrink-0 bg-slate-800 rounded-xl p-4 overflow-hidden flex flex-col border border-slate-700 shadow-2xl h-[400px] md:h-full min-h-0">
+            <div className="w-full md:w-96 shrink-0 bg-slate-800 rounded-xl p-4 overflow-hidden flex flex-col border border-slate-700 shadow-2xl h-[300px] md:h-full min-h-0">
               <ToolCallFeed onSummary={handleSummary} onUserInfo={setUserInfo} />
             </div>
           </div>
